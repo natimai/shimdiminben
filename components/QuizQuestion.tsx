@@ -110,7 +110,7 @@ export function QuizQuestion({
                   htmlFor={`option-${index}`}
                   className={`relative p-3 sm:p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer
                     ${selectedAnswer === option 
-                      ? 'border-game-primary bg-game-primary/10 transform scale-[1.01]' 
+                      ? 'border-game-primary bg-game-primary/10' 
                       : 'border-game-secondary/30 hover:border-game-primary/50 hover:bg-game-primary/5'}`}
                 >
                   <div className="flex items-start gap-3">
@@ -119,7 +119,7 @@ export function QuizQuestion({
                       id={`option-${index}`}
                       className="mt-1 w-4 h-4 border-2 border-game-primary"
                     />
-                    <span className="flex-1 text-base sm:text-lg text-game-dark leading-relaxed">{option}</span>
+                    <span className="flex-1 text-base sm:text-lg text-game-dark font-medium leading-relaxed">{option}</span>
                   </div>
                 </Label>
               ))}

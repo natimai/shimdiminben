@@ -826,10 +826,14 @@ h1 {
   padding: 1rem;
   border-radius: 1rem;
   transition: all 0.3s ease;
+  background-color: var(--game-light);
+  border: 2px solid var(--game-secondary/30);
 }
 
 .radio-group label:hover {
   transform: translateY(-2px);
+  border-color: var(--game-primary);
+  background-color: var(--game-light);
 }
 
 .radio-group label > div {
@@ -841,6 +845,8 @@ h1 {
 .radio-group label span {
   display: block;
   flex: 1;
+  color: var(--game-dark);
+  font-weight: 500;
 }
 
 /* התאמת גודל טקסט לפי גודל מסך */
@@ -852,6 +858,7 @@ h1 {
   .radio-group label span {
     font-size: 0.9rem;
     line-height: 1.4;
+    color: var(--game-dark);
   }
 
   .dialog-content {
@@ -866,6 +873,7 @@ h1 {
   .radio-group label span {
     font-size: 1rem;
     line-height: 1.5;
+    color: var(--game-dark);
   }
 }
 
@@ -873,6 +881,7 @@ h1 {
   .radio-group label span {
     font-size: 1.1rem;
     line-height: 1.6;
+    color: var(--game-dark);
   }
 }
 
@@ -894,6 +903,17 @@ h1 {
 .radio-group [type="radio"]:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--game-primary/20);
+}
+
+/* עיצוב מיוחד לתשובה שנבחרה */
+.radio-group label[data-state="checked"] {
+  background-color: var(--game-primary/10);
+  border-color: var(--game-primary);
+}
+
+.radio-group label[data-state="checked"] span {
+  color: var(--game-dark);
+  font-weight: 600;
 }
 
 /* התאמת גובה לפי תוכן */
