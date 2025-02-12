@@ -168,21 +168,24 @@ export default function Home() {
       </div>
 
       {/* פוטר */}
-      <footer className="w-full max-w-5xl mx-auto mt-8 text-center">
-        <div className="clean-card">
-          <p className="text-game-dark mb-2">
-            האתר נבנה על ידי{" "}
-            <span className="gradient-text font-bold">נתי מימון</span>
-          </p>
-          <a 
-            href="https://wa.me/972544445567" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bgu-button inline-flex mx-auto"
-          >
-            <span className="emoji">💬</span>
-            יצירת קשר
-          </a>
+      <footer className="w-full max-w-5xl mx-auto mt-4 text-center">
+        <div className="clean-card py-2 px-4">
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <p className="text-game-dark text-sm">
+              נבנה על ידי{" "}
+              <span className="gradient-text font-bold">נתי מימון</span>
+            </p>
+            <span className="text-game-dark/30">|</span>
+            <a 
+              href="https://wa.me/972544445567" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-game-primary hover:text-game-secondary transition-colors duration-300 text-sm flex items-center gap-1"
+            >
+              <span className="text-base">💬</span>
+              יצירת קשר
+            </a>
+          </div>
         </div>
       </footer>
     </main>
