@@ -94,25 +94,38 @@ export function QuizQuestion({
   return (
     <>
       <Card className="w-full max-w-2xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg">
-        <CardContent className="p-4 sm:p-8">
-          <h2 className="text-xl sm:text-3xl font-semibold mb-4 sm:mb-6 text-right text-gray-800 leading-relaxed">{question}</h2>
-          <RadioGroup value={selectedAnswer} onValueChange={setSelectedAnswer} className="space-y-4">
+        <CardContent className="p-4 sm:p-6 md:p-8">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 leading-relaxed">{question}</h2>
+          <RadioGroup value={selectedAnswer} onValueChange={setSelectedAnswer} className="space-y-4 radio-group">
             {shuffledOptions.map((option, index) => (
-              <div key={index} className="flex items-center space-x-2 space-x-reverse">
+              <div key={index} className="relative">
                 <Label
                   htmlFor={`option-${index}`}
-                  className="text-base sm:text-xl text-gray-700 flex-grow text-right cursor-pointer p-4 rounded-lg transition-colors duration-200 ease-in-out hover:bg-gray-100 border-2 border-gray-200"
+                  className={`flex items-center w-full p-4 sm:p-5 rounded-xl border-2 transition-all duration-300 cursor-pointer
+                    ${selectedAnswer === option 
+                      ? 'border-blue-500 bg-blue-50/50 shadow-md transform scale-[1.02]' 
+                      : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50/50 hover:shadow-md hover:scale-[1.01]'}`}
                 >
-                  {option}
+                  <RadioGroupItem 
+                    value={option} 
+                    id={`option-${index}`} 
+                    className={`h-5 w-5 border-2 ml-4 ${
+                      selectedAnswer === option 
+                        ? 'border-blue-500' 
+                        : 'border-gray-300'
+                    }`} 
+                  />
+                  <div className="flex-grow">
+                    <p className="text-base sm:text-lg md:text-xl text-gray-700">{option}</p>
+                  </div>
                 </Label>
-                <RadioGroupItem value={option} id={`option-${index}`} className="border-2 border-gray-300 h-5 w-5" />
               </div>
             ))}
           </RadioGroup>
           <Button
             onClick={handleSubmit}
             disabled={!selectedAnswer || showFeedback}
-            className="mt-6 sm:mt-8 w-full bg-gradient-to-r from-blue-400 to-purple-500 hover:from-blue-500 hover:to-purple-600 text-white text-lg sm:text-xl font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+            className="mt-8 sm:mt-10 w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-lg sm:text-xl font-bold py-4 sm:py-5 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl disabled:hover:scale-100 disabled:hover:shadow-lg"
           >
             בדוק תשובה
           </Button>
@@ -120,9 +133,9 @@ export function QuizQuestion({
       </Card>
 
       <Dialog open={showFeedback} onOpenChange={setShowFeedback}>
-        <DialogContent className="sm:max-w-xl p-4 sm:p-6 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border-2 border-gray-100 text-right max-h-[90vh] overflow-y-auto">
-          <DialogHeader className="space-y-2 sm:space-y-3">
-            <DialogTitle className={`text-2xl sm:text-4xl font-bold ${selectedAnswer === correctAnswer ? "text-green-600" : "text-red-600"}`}>
+        <DialogContent className="dialog-content sm:max-w-2xl p-4 sm:p-6 md:p-8 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border-2 border-gray-100 max-h-[90vh] overflow-y-auto">
+          <DialogHeader className="space-y-3 sm:space-y-4">
+            <DialogTitle className={`text-2xl sm:text-3xl md:text-4xl font-bold ${selectedAnswer === correctAnswer ? "text-green-600" : "text-red-600"}`}>
               {selectedAnswer === correctAnswer ? "כל הכבוד! 🎉" : "לא נכון 😕"}
             </DialogTitle>
             <DialogDescription className="text-xl sm:text-2xl font-medium text-gray-700">
@@ -131,14 +144,14 @@ export function QuizQuestion({
                 : <span>התשובה הנכונה היא: <span className="text-blue-600 font-semibold">{correctAnswer}</span></span>}
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 sm:mt-6 bg-gray-50 p-4 sm:p-6 rounded-xl">
-            <h4 className="font-bold text-xl sm:text-2xl mb-2 sm:mb-3 text-gray-800">הסבר:</h4>
+          <div className="mt-6 bg-gray-50 p-4 sm:p-6 rounded-xl border border-gray-200">
+            <h4 className="font-bold text-xl sm:text-2xl mb-3 sm:mb-4 text-gray-800">הסבר:</h4>
             <p className="text-gray-700 text-lg sm:text-xl leading-relaxed">{explanation}</p>
           </div>
-          <div className={`mt-4 sm:mt-6 p-4 sm:p-6 rounded-xl text-center ${
+          <div className={`mt-6 p-4 sm:p-6 rounded-xl text-center ${
             selectedAnswer === correctAnswer 
-              ? "bg-green-50 border-2 border-green-100" 
-              : "bg-blue-50 border-2 border-blue-100"
+              ? "bg-green-50 border-2 border-green-200" 
+              : "bg-blue-50 border-2 border-blue-200"
           }`}>
             <p className={`text-lg sm:text-xl font-medium ${
               selectedAnswer === correctAnswer ? "text-green-600" : "text-blue-600"
@@ -146,12 +159,12 @@ export function QuizQuestion({
               {feedbackMessage}
             </p>
           </div>
-          <DialogFooter className="mt-6 sm:mt-8">
+          <DialogFooter className="mt-8">
             <Button
               type="button"
               variant="default"
               onClick={handleNext}
-              className="w-full bg-gradient-to-r from-blue-400 to-purple-500 hover:from-blue-500 hover:to-purple-600 text-white text-lg sm:text-xl font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-[0.98]"
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-lg sm:text-xl font-bold py-4 sm:py-5 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-[0.98] shadow-lg hover:shadow-xl"
             >
               המשך לשאלה הבאה
             </Button>
