@@ -25,7 +25,12 @@ export default function Home() {
   const [showQuiz, setShowQuiz] = useState(false)
   const [isInfiniteMode, setIsInfiniteMode] = useState(false)
   const [currentMessage, setCurrentMessage] = useState("")
+  const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (showQuiz) {
@@ -38,14 +43,22 @@ export default function Home() {
     }
   }, [showQuiz])
 
+  if (!mounted) {
+    return null
+  }
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-between p-4 sm:p-8 md:p-24 bg-clean">
       {/* Theme Toggle */}
       <button
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="fixed top-4 left-4 p-2 rounded-full bg-white hover:bg-gray-100 transition-all duration-300"
+        className="fixed top-4 right-4 p-2 rounded-full bg-white hover:bg-gray-100 transition-all duration-300"
       >
-        {theme === "dark" ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
+        {theme === "dark" ? (
+          <Sun className="w-6 h-6" aria-hidden="true" />
+        ) : (
+          <Moon className="w-6 h-6" aria-hidden="true" />
+        )}
       </button>
 
       <div className="relative z-10 w-full max-w-5xl flex-1">
@@ -131,31 +144,33 @@ export default function Home() {
               transition={{ duration: 0.5 }}
               className="w-full"
             >
-              <div className="fixed top-0 left-0 right-0 z-50 bg-clean p-4">
-                <div className="max-w-5xl mx-auto flex justify-between items-center">
-                  <button
-                    onClick={() => {
-                      setShowQuiz(false)
-                      setIsInfiniteMode(false)
-                    }}
-                    className="bgu-button"
-                  >
-                    <span className="emoji">←</span>
-                    חזרה לדף הבית
-                  </button>
-                  <motion.p
-                    key={currentMessage}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="text-lg font-medium gradient-text"
-                  >
-                    {currentMessage}
-                  </motion.p>
+              <div className="fixed top-0 left-0 right-0 z-50">
+                <div className="bg-clean/95 backdrop-blur-md border-b border-game-secondary/20 shadow-sm">
+                  <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 p-3">
+                    <button
+                      onClick={() => {
+                        setShowQuiz(false)
+                        setIsInfiniteMode(false)
+                      }}
+                      className="bgu-button py-2 px-4"
+                    >
+                      <span className="emoji text-xl">←</span>
+                      חזרה לדף הבית
+                    </button>
+                    <motion.p
+                      key={currentMessage}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-base sm:text-lg font-medium motivation-text"
+                    >
+                      {currentMessage}
+                    </motion.p>
+                  </div>
                 </div>
               </div>
               
-              <div className="pt-20">
+              <div className="pt-24 sm:pt-20">
                 <AccountingQuiz 
                   questions={questionBank} 
                   isInfiniteMode={isInfiniteMode}

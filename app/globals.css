@@ -351,13 +351,23 @@ h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
 }
 
 .ml-4 {
-  margin-inline-start: 1rem;
-  margin-inline-end: 0;
+  margin-right: 1rem !important;
+  margin-left: 0 !important;
 }
 
 .mr-4 {
-  margin-inline-end: 1rem;
-  margin-inline-start: 0;
+  margin-left: 1rem !important;
+  margin-right: 0 !important;
+}
+
+.pl-4 {
+  padding-right: 1rem !important;
+  padding-left: 0 !important;
+}
+
+.pr-4 {
+  padding-left: 1rem !important;
+  padding-right: 0 !important;
 }
 
 /* Fix RTL for Dialog */
@@ -561,16 +571,41 @@ p {
 
 /* עיצוב מוטיבציה */
 .motivation-text {
-  font-size: 1.2em;
-  color: var(--game-primary);
+  background: linear-gradient(120deg, var(--game-primary), var(--game-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-weight: 700;
-  text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  position: relative;
   transition: all 0.3s ease;
 }
 
-.motivation-text:hover {
-  transform: scale(1.05);
-  color: var(--game-secondary);
+.motivation-text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 2px;
+  background: linear-gradient(120deg, var(--game-primary/20), var(--game-secondary/20));
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* התאמות למובייל */
+@media (max-width: 640px) {
+  .motivation-text {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+  }
 }
 
 /* התאמות למסכים שונים */
@@ -759,9 +794,7 @@ p {
 }
 
 .radio-group label > div {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
+  flex-direction: row-reverse;
 }
 
 .radio-group label span {
@@ -889,33 +922,38 @@ p {
   --game-light: #1A1A1A;
 }
 
-/* כפתורים משחקיים */
+/* עדכון כפתור חזרה */
 .bgu-button {
   background: var(--game-light);
-  border: 3px solid var(--game-primary);
+  border: 2px solid var(--game-primary);
   color: var(--game-primary);
-  padding: 15px 30px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 1.1em;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 0 var(--game-primary);
-  transform: translateY(0);
+  gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .bgu-button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 0 var(--game-primary);
   background: var(--game-primary);
   color: var(--game-light);
+  transform: translateY(-2px);
 }
 
 .bgu-button:active {
-  transform: translateY(4px);
-  box-shadow: 0 0 0 var(--game-primary);
+  transform: translateY(0);
+}
+
+/* עדכון הדר */
+.bg-clean {
+  background: linear-gradient(135deg, var(--game-light) 0%, var(--game-light) 100%);
+}
+
+[data-theme="dark"] .bg-clean {
+  background: linear-gradient(135deg, var(--game-light) 0%, var(--game-light) 100%);
 }
 
 /* עיצוב אימוג'י משחקי */
@@ -1006,4 +1044,37 @@ p {
 
 [data-theme="dark"] .bg-white\/95 {
   background-color: var(--game-light);
+}
+
+/* Fix RTL alignments */
+.radio-group,
+.dialog-content,
+.clean-card,
+.card-content,
+button,
+input,
+select,
+textarea {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Fix RTL for quiz options */
+.radio-group label > div {
+  flex-direction: row-reverse;
+}
+
+/* Fix RTL for dialog buttons */
+.dialog-footer {
+  flex-direction: row-reverse;
+}
+
+/* Fix RTL for quiz header */
+.quiz-container .card-header {
+  text-align: right;
+}
+
+/* Fix RTL for progress text */
+.progress + p {
+  text-align: right;
 }
