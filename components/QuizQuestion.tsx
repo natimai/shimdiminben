@@ -18,6 +18,12 @@ interface QuizQuestionProps {
 export function QuizQuestion({ question, options, correctAnswer, explanation, onAnswer }: QuizQuestionProps) {
   const [selectedAnswer, setSelectedAnswer] = React.useState("")
   const [showFeedback, setShowFeedback] = React.useState(false)
+  const [shuffledOptions, setShuffledOptions] = React.useState<string[]>([])
+
+  React.useEffect(() => {
+    // ערבוב התשובות בטעינת השאלה
+    setShuffledOptions([...options].sort(() => Math.random() - 0.5))
+  }, [options])
 
   const handleSubmit = () => {
     if (selectedAnswer) {
@@ -32,7 +38,7 @@ export function QuizQuestion({ question, options, correctAnswer, explanation, on
       <CardContent className="p-6 sm:p-8">
         <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-right text-gray-800">{question}</h2>
         <RadioGroup value={selectedAnswer} onValueChange={setSelectedAnswer} className="space-y-4">
-          {options.map((option, index) => (
+          {shuffledOptions.map((option, index) => (
             <div key={index} className="flex items-center space-x-2 space-x-reverse">
               <Label
                 htmlFor={`option-${index}`}
