@@ -16,10 +16,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  swcMinify: false,
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
+    swcLoader: false,
   },
 }
 
