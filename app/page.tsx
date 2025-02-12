@@ -39,7 +39,7 @@ export default function Home() {
   }, [showQuiz])
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 md:p-24 bg-clean">
+    <main className="min-h-screen flex flex-col items-center justify-between p-4 sm:p-8 md:p-24 bg-clean">
       {/* Theme Toggle */}
       <button
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -48,7 +48,7 @@ export default function Home() {
         {theme === "dark" ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
       </button>
 
-      <div className="relative z-10 w-full max-w-5xl">
+      <div className="relative z-10 w-full max-w-5xl flex-1">
         <AnimatePresence mode="wait">
           {!showQuiz ? (
             <motion.div
@@ -166,6 +166,25 @@ export default function Home() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* פוטר */}
+      <footer className="w-full max-w-5xl mx-auto mt-8 text-center">
+        <div className="clean-card">
+          <p className="text-game-dark mb-2">
+            האתר נבנה על ידי{" "}
+            <span className="gradient-text font-bold">נתי מימון</span>
+          </p>
+          <a 
+            href="https://wa.me/972544445567" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="bgu-button inline-flex mx-auto"
+          >
+            <span className="emoji">💬</span>
+            יצירת קשר
+          </a>
+        </div>
+      </footer>
     </main>
   )
 }
