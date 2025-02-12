@@ -9,6 +9,333 @@ body {
   text-align: right;
 }
 
+/* Dark mode variables */
+:root[data-theme="dark"] {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
+}
+
+/* Enhanced animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* עיצוב טקסט נקי */
+.gradient-text {
+  color: #1e3c72;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.gradient-text:hover {
+  color: #2a5298;
+}
+
+.gradient-text-bgu {
+  color: #1e3c72;
+  font-weight: 800;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* אנימציית זוהר משופרת */
+@keyframes neonGlow {
+  0% {
+    text-shadow: 0 0 10px rgba(30,60,114,0.8),
+                 0 0 20px rgba(30,60,114,0.8),
+                 0 0 30px rgba(30,60,114,0.8);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(30,60,114,0.8),
+                 0 0 30px rgba(30,60,114,0.8),
+                 0 0 40px rgba(255,138,0,0.8);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(30,60,114,0.8),
+                 0 0 20px rgba(30,60,114,0.8),
+                 0 0 30px rgba(30,60,114,0.8);
+  }
+}
+
+.text-neon {
+  animation: neonGlow 2s ease-in-out infinite;
+  font-weight: 700;
+}
+
+/* עיצוב כפתורים נקי */
+.bgu-button {
+  background-color: white;
+  border: 2px solid #1e3c72;
+  color: #1e3c72;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bgu-button:hover {
+  background-color: #1e3c72;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* עיצוב אימוג'י */
+.emoji {
+  font-size: 1.5em;
+  margin: 0 4px;
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.emoji:hover {
+  transform: scale(1.2);
+}
+
+/* כרטיסיות נקיות */
+.clean-card {
+  background-color: white;
+  border: 1px solid rgba(30, 60, 114, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.clean-card:hover {
+  border-color: #1e3c72;
+  transform: translateY(-2px);
+}
+
+/* כותרות נקיות */
+h1, h2, h3, h4, h5, h6 {
+  color: #1e3c72;
+  font-family: 'Heebo', Arial, sans-serif;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 0.5em;
+}
+
+/* רקע נקי */
+.bg-clean {
+  background-color: rgba(30, 60, 114, 0.02);
+  backdrop-filter: blur(8px);
+}
+
+/* קישוטים עדינים */
+.subtle-border {
+  border-bottom: 2px solid rgba(30, 60, 114, 0.1);
+  padding-bottom: 8px;
+}
+
+.subtle-border:hover {
+  border-color: #1e3c72;
+}
+
+/* אנימציות עדינות */
+@keyframes gentle-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-gentle {
+  animation: gentle-bounce 2s ease-in-out infinite;
+}
+
+/* עיצוב כותרות משופר */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Heebo', Arial, sans-serif;
+  line-height: 1.4;
+  background: linear-gradient(300deg, #1e3c72 0%, #2a5298 74%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: all 0.4s ease;
+  font-weight: 800;
+  position: relative;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+h1:hover::after {
+  transform: scaleX(1);
+}
+
+/* רקע מיוחד */
+.bg-bgu-gradient {
+  background: linear-gradient(135deg, rgba(30,60,114,0.1) 0%, rgba(42,82,152,0.1) 100%);
+}
+
+.bg-bgu-blur {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 32px 0 rgba(30,60,114,0.1);
+}
+
+/* אנימציית זוהר חדשה לטקסט */
+@keyframes textShine {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-shine {
+  background: linear-gradient(
+    to right,
+    #ff8a00 20%,
+    #e52e71 40%,
+    #e52e71 60%,
+    #ff8a00 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: textShine 3s linear infinite;
+  font-weight: 700;
+}
+
+/* עיצוב כותרות */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Heebo', Arial, sans-serif;
+  line-height: 1.4;
+}
+
+h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
+  transform: scale(1.01);
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* Card hover effects */
+.hover-card {
+  transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Button animations */
+.button-hover {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-hover:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  transition: 0.5s;
+}
+
+.button-hover:hover:before {
+  transform: translateX(100%);
+}
+
+/* Progress bar animation */
+.progress-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 2s infinite;
+}
+
 /* Fix Tailwind RTL issues */
 .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 1;
@@ -158,4 +485,446 @@ body {
 
 .animate-blob {
   animation: blob 7s infinite;
+}
+
+p {
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* צבעים משחקיים */
+:root {
+  --game-primary: #FF6B6B;
+  --game-secondary: #4ECDC4;
+  --game-accent: #FFE66D;
+  --game-dark: #2C3E50;
+  --game-light: #FFFFFF;
+}
+
+/* עיצוב טקסט משחקי */
+.gradient-text {
+  background: linear-gradient(120deg, var(--game-primary), var(--game-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.gradient-text-bgu {
+  background: linear-gradient(45deg, var(--game-primary), var(--game-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 900;
+  letter-spacing: 2px;
+  position: relative;
+  animation: colorWave 3s ease infinite;
+}
+
+@keyframes colorWave {
+  0% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(20deg); }
+  100% { filter: hue-rotate(0deg); }
+}
+
+/* כפתורים משחקיים */
+.bgu-button {
+  background: var(--game-light);
+  border: 3px solid var(--game-primary);
+  color: var(--game-primary);
+  padding: 15px 30px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.1em;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 0 var(--game-primary);
+  transform: translateY(0);
+}
+
+.bgu-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 var(--game-primary);
+  background: var(--game-primary);
+  color: var(--game-light);
+}
+
+.bgu-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--game-primary);
+}
+
+/* עיצוב אימוג'י משחקי */
+.emoji {
+  font-size: 2em;
+  filter: saturate(1.2);
+  display: inline-block;
+  transform-origin: center;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.emoji:hover {
+  transform: scale(1.4) rotate(15deg);
+}
+
+/* כרטיסיות משחקיות */
+.clean-card {
+  background: var(--game-light);
+  border: 3px solid var(--game-secondary);
+  border-radius: 25px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+}
+
+.clean-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  border-color: var(--game-primary);
+}
+
+/* כותרות משחקיות */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--game-dark);
+  font-family: 'Heebo', Arial, sans-serif;
+  font-weight: 800;
+  line-height: 1.4;
+  position: relative;
+}
+
+h1 {
+  font-size: 4rem;
+  background: linear-gradient(45deg, var(--game-primary), var(--game-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+}
+
+/* רקע משחקי */
+.bg-clean {
+  background: linear-gradient(135deg, #fff5f5 0%, #f0fff4 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-clean::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,107,107,0.1) 0%, transparent 50%);
+  animation: pulseBackground 4s ease-in-out infinite;
+}
+
+@keyframes pulseBackground {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.5); opacity: 0.2; }
+  100% { transform: scale(1); opacity: 0.5; }
+}
+
+/* אנימציות משחקיות */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* עיצוב מוטיבציה */
+.motivation-text {
+  font-size: 1.2em;
+  color: var(--game-primary);
+  font-weight: 700;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.motivation-text:hover {
+  transform: scale(1.05);
+  color: var(--game-secondary);
+}
+
+/* התאמות למסכים שונים */
+@media (max-width: 640px) {
+  .gradient-text {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+  }
+
+  .gradient-text-bgu {
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+  }
+
+  .bgu-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .emoji {
+    font-size: 1.5em;
+  }
+
+  .clean-card {
+    padding: 16px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .gradient-text {
+    font-size: 2rem;
+    letter-spacing: 0.75px;
+  }
+
+  .gradient-text-bgu {
+    font-size: 1.75rem;
+    letter-spacing: 1.5px;
+  }
+
+  .bgu-button {
+    padding: 14px 24px;
+    font-size: 1.1rem;
+  }
+
+  .emoji {
+    font-size: 1.75em;
+  }
+
+  .clean-card {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .gradient-text {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+
+  .gradient-text-bgu {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .bgu-button {
+    padding: 16px 32px;
+    font-size: 1.2rem;
+  }
+
+  .emoji {
+    font-size: 2em;
+  }
+
+  .clean-card {
+    padding: 24px;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+}
+
+/* התאמות נוספות למובייל */
+@media (max-width: 640px) {
+  .dialog-content {
+    padding: 16px;
+    margin: 16px;
+  }
+
+  .radio-group {
+    gap: 12px;
+  }
+
+  .progress {
+    height: 8px;
+  }
+
+  .motivation-text {
+    font-size: 1rem;
+  }
+}
+
+/* התאמות לגובה המסך */
+@media (max-height: 700px) {
+  .clean-card {
+    padding: 12px;
+  }
+
+  .bgu-button {
+    padding: 10px 20px;
+  }
+
+  .dialog-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+/* שיפורים לביצועים במובייל */
+@media (max-width: 640px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .animate-blob,
+  .animate-float,
+  .animate-pulse-slow {
+    animation: none;
+  }
+
+  .hover-card:hover,
+  .clean-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* עיצוב שאלות ותשובות */
+.radio-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .radio-group {
+    gap: 1rem;
+  }
+}
+
+.radio-group label {
+  width: 100%;
+  text-align: right;
+  display: block;
+  position: relative;
+  padding: 1rem;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+
+.radio-group label:hover {
+  transform: translateY(-2px);
+}
+
+.radio-group label > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.radio-group label span {
+  display: block;
+  flex: 1;
+}
+
+/* התאמת גודל טקסט לפי גודל מסך */
+@media (max-width: 640px) {
+  .radio-group label {
+    padding: 0.75rem;
+  }
+
+  .radio-group label span {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .dialog-content {
+    margin: 1rem;
+    padding: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+}
+
+@media (min-width: 641px) {
+  .radio-group label span {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .radio-group label span {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+}
+
+/* שיפור נראות הכפתורים ברדיו */
+.radio-group [type="radio"] {
+  margin-top: 0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--game-primary);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.radio-group [type="radio"]:checked {
+  background-color: var(--game-primary);
+  border-color: var(--game-primary);
+}
+
+.radio-group [type="radio"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--game-primary/20);
+}
+
+/* התאמת גובה לפי תוכן */
+.quiz-container {
+  min-height: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-height: 700px) {
+  .quiz-container {
+    min-height: calc(100vh - 8rem);
+  }
+}
+
+/* שיפור נראות הדיאלוג */
+.dialog-content {
+  width: 95%;
+  max-width: 42rem;
+  margin: auto;
+  border-radius: 1.5rem;
+  background: var(--game-light);
+}
+
+@media (max-width: 640px) {
+  .dialog-content {
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
 }

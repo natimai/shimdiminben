@@ -18,23 +18,40 @@ interface QuizAnswer {
 interface AccountingQuizProps {
   questions: Question[]
   numberOfQuestions?: number
+  isInfiniteMode?: boolean
+  maxErrors?: number
 }
 
-export function AccountingQuiz({ questions, numberOfQuestions = 10 }: AccountingQuizProps) {
+export function AccountingQuiz({ 
+  questions, 
+  numberOfQuestions = 10, 
+  isInfiniteMode = false,
+  maxErrors = 5 
+}: AccountingQuizProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0)
   const [score, setScore] = React.useState(0)
   const [quizQuestions, setQuizQuestions] = React.useState<Question[]>([])
   const [quizCompleted, setQuizCompleted] = React.useState(false)
   const [answers, setAnswers] = React.useState<QuizAnswer[]>([])
+  const [errorCount, setErrorCount] = React.useState(0)
+  const [answeredQuestions, setAnsweredQuestions] = React.useState<Set<number>>(new Set())
 
   React.useEffect(() => {
-    const randomQuestions = getRandomQuestions(questions, numberOfQuestions)
-    setQuizQuestions(randomQuestions)
+    if (isInfiniteMode) {
+      // במוד אינסופי, נערבב את כל השאלות
+      setQuizQuestions([...questions].sort(() => Math.random() - 0.5))
+    } else {
+      // במוד רגיל, ניקח מספר מוגבל של שאלות
+      const randomQuestions = getRandomQuestions(questions, numberOfQuestions)
+      setQuizQuestions(randomQuestions)
+    }
     setAnswers([])
     setScore(0)
     setCurrentQuestionIndex(0)
     setQuizCompleted(false)
-  }, [questions, numberOfQuestions])
+    setErrorCount(0)
+    setAnsweredQuestions(new Set())
+  }, [questions, numberOfQuestions, isInfiniteMode])
 
   const handleAnswer = (isCorrect: boolean) => {
     if (isCorrect) {
@@ -44,6 +61,14 @@ export function AccountingQuiz({ questions, numberOfQuestions = 10 }: Accounting
         spread: 70,
         origin: { y: 0.6 }
       })
+    } else {
+      if (isInfiniteMode) {
+        setErrorCount(prev => prev + 1)
+        if (errorCount + 1 >= maxErrors) {
+          setQuizCompleted(true)
+          return
+        }
+      }
     }
     
     setAnswers(prev => [...prev, {
@@ -53,11 +78,27 @@ export function AccountingQuiz({ questions, numberOfQuestions = 10 }: Accounting
       ) || "",
       isCorrect
     }])
+
+    if (isInfiniteMode) {
+      setAnsweredQuestions(prev => new Set(prev).add(currentQuestionIndex))
+    }
   }
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < quizQuestions.length - 1) {
+    if (!isInfiniteMode && currentQuestionIndex < quizQuestions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1)
+    } else if (isInfiniteMode) {
+      // במוד אינסופי, נמצא את השאלה הבאה שעוד לא נענתה
+      let nextIndex = (currentQuestionIndex + 1) % quizQuestions.length
+      while (answeredQuestions.has(nextIndex) && answeredQuestions.size < quizQuestions.length) {
+        nextIndex = (nextIndex + 1) % quizQuestions.length
+      }
+      
+      if (answeredQuestions.size >= quizQuestions.length) {
+        setQuizCompleted(true)
+      } else {
+        setCurrentQuestionIndex(nextIndex)
+      }
     } else {
       setQuizCompleted(true)
     }
@@ -80,16 +121,18 @@ export function AccountingQuiz({ questions, numberOfQuestions = 10 }: Accounting
   const incorrectAnswers = answers.filter(answer => !answer.isCorrect)
 
   return (
-    <Card className="w-full max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-2xl">
-      <CardHeader className="p-4 sm:p-6 md:p-8 border-b border-gray-100">
-        <CardTitle className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+    <Card className="w-full max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg quiz-container">
+      <CardHeader className="p-3 sm:p-4 border-b border-game-secondary/20">
+        <CardTitle className="text-lg sm:text-xl font-bold text-game-dark">
           בוחן עצמי בחשבונאות
-          <p className="text-base sm:text-lg font-medium text-gray-600 mt-2">
-            בכל פעם נבחרות {numberOfQuestions} שאלות באופן אקראי מתוך מאגר השאלות
+          <p className="text-sm sm:text-base font-medium text-game-dark/70 mt-2">
+            {isInfiniteMode 
+              ? `מוד אינסופי - נותרו ${maxErrors - errorCount} טעויות` 
+              : `נבחרו ${numberOfQuestions} שאלות אקראיות מתוך המאגר`}
           </p>
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-4 sm:p-6 md:p-8">
+      <CardContent className="p-3 sm:p-4 flex-1 flex flex-col">
         <AnimatePresence mode="wait">
           {!quizCompleted ? (
             <motion.div
@@ -98,31 +141,41 @@ export function AccountingQuiz({ questions, numberOfQuestions = 10 }: Accounting
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
+              className="space-y-4 flex-1 flex flex-col"
             >
-              <div className="mb-6 sm:mb-8 bg-gray-50/50 p-4 sm:p-6 rounded-xl border border-gray-200">
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 text-gray-800">
-                  שאלה {currentQuestionIndex + 1} מתוך {quizQuestions.length}
-                </h2>
-                <p className="text-lg sm:text-xl text-gray-700">
-                  ניקוד: {score} מתוך {currentQuestionIndex + 1}
-                </p>
+              <div className="bg-game-light/50 p-3 sm:p-4 rounded-xl border-2 border-game-secondary/20">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <h2 className="text-base sm:text-lg font-bold text-game-dark">
+                    {isInfiniteMode ? (
+                      <>שאלה {answeredQuestions.size + 1}</>
+                    ) : (
+                      <>שאלה {currentQuestionIndex + 1} מתוך {quizQuestions.length}</>
+                    )}
+                  </h2>
+                  <p className="text-sm sm:text-base text-game-dark/80">
+                    ניקוד: {score} {isInfiniteMode ? `(טעויות: ${errorCount}/${maxErrors})` : `מתוך ${currentQuestionIndex + 1}`}
+                  </p>
+                </div>
+                <div className="mt-2 sm:mt-3">
+                  <Progress
+                    value={((currentQuestionIndex + 1) / quizQuestions.length) * 100}
+                    className="h-2 sm:h-3 bg-game-secondary/20"
+                  />
+                  <p className="mt-1 text-xs sm:text-sm text-game-dark/60">
+                    התקדמות: {Math.round(((currentQuestionIndex + 1) / quizQuestions.length) * 100)}%
+                  </p>
+                </div>
               </div>
-              <QuizQuestion
-                question={currentQuestion.question}
-                options={currentQuestion.options}
-                correctAnswer={currentQuestion.correctAnswer}
-                explanation={currentQuestion.explanation}
-                onAnswer={handleAnswer}
-                onNextQuestion={handleNextQuestion}
-              />
-              <div className="mt-6 sm:mt-8">
-                <Progress
-                  value={((currentQuestionIndex + 1) / quizQuestions.length) * 100}
-                  className="h-3 sm:h-4 w-full bg-gray-200 dark:bg-gray-700 progress"
+
+              <div className="flex-1">
+                <QuizQuestion
+                  question={currentQuestion.question}
+                  options={currentQuestion.options}
+                  correctAnswer={currentQuestion.correctAnswer}
+                  explanation={currentQuestion.explanation}
+                  onAnswer={handleAnswer}
+                  onNextQuestion={handleNextQuestion}
                 />
-                <p className="mt-2 text-base sm:text-lg text-gray-600">
-                  התקדמות: {Math.round(((currentQuestionIndex + 1) / quizQuestions.length) * 100)}%
-                </p>
               </div>
             </motion.div>
           ) : (
@@ -131,36 +184,37 @@ export function AccountingQuiz({ questions, numberOfQuestions = 10 }: Accounting
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
+              className="space-y-4"
             >
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 sm:p-8 rounded-xl mb-8 border-2 border-blue-100/50">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-gray-800">סיכום המבחן</h2>
+              <div className="bg-gradient-to-r from-game-secondary/10 to-game-primary/10 p-4 rounded-xl border-2 border-game-secondary/20">
+                <h2 className="text-xl sm:text-2xl font-bold mb-4 text-game-dark">סיכום המבחן</h2>
                 <div className="space-y-4">
-                  <p className="text-xl sm:text-2xl md:text-3xl mb-4 text-gray-700">
-                    הציון שלך: {score} מתוך {quizQuestions.length}
-                  </p>
-                  <div className="relative">
-                    <Progress
-                      value={(score / quizQuestions.length) * 100}
-                      className="h-4 sm:h-5 w-full bg-gray-200 dark:bg-gray-700 progress"
-                    />
-                    <p className="absolute top-full mt-2 text-lg sm:text-xl text-gray-600">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <p className="text-lg sm:text-xl text-game-dark">
+                      הציון שלך: {score} מתוך {quizQuestions.length}
+                    </p>
+                    <p className="text-base sm:text-lg text-game-dark/80">
                       אחוז הצלחה: {Math.round((score / quizQuestions.length) * 100)}%
                     </p>
                   </div>
+                  <Progress
+                    value={(score / quizQuestions.length) * 100}
+                    className="h-3 sm:h-4 bg-game-secondary/20"
+                  />
                 </div>
               </div>
 
               {incorrectAnswers.length > 0 && (
-                <div className="bg-white p-6 sm:p-8 rounded-xl border-2 border-gray-100 shadow-lg">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-red-600">
+                <div className="bg-white p-4 rounded-xl border-2 border-game-primary/20">
+                  <h3 className="text-lg sm:text-xl font-bold mb-4 text-game-primary">
                     שאלות שטעית בהן:
                   </h3>
-                  <div className="space-y-6">
+                  <div className="space-y-3 max-h-[40vh] overflow-y-auto">
                     {incorrectAnswers.map((answer, index) => (
-                      <div key={index} className="p-4 sm:p-6 bg-gray-50 rounded-xl border-2 border-gray-200 transition-all duration-300 hover:shadow-md">
-                        <p className="font-bold mb-3 text-lg sm:text-xl text-gray-800">{answer.question.question}</p>
-                        <p className="text-red-600 mb-3 text-base sm:text-lg">התשובה הנכונה: {answer.question.correctAnswer}</p>
-                        <p className="text-gray-700 text-base sm:text-lg leading-relaxed">{answer.question.explanation}</p>
+                      <div key={index} className="p-3 bg-game-light rounded-xl border-2 border-game-secondary/20">
+                        <p className="font-bold mb-2 text-base sm:text-lg text-game-dark">{answer.question.question}</p>
+                        <p className="text-game-primary mb-2 text-sm sm:text-base">התשובה הנכונה: {answer.question.correctAnswer}</p>
+                        <p className="text-game-dark/80 text-xs sm:text-sm">{answer.question.explanation}</p>
                       </div>
                     ))}
                   </div>
@@ -169,8 +223,9 @@ export function AccountingQuiz({ questions, numberOfQuestions = 10 }: Accounting
 
               <Button
                 onClick={restartQuiz}
-                className="mt-8 sm:mt-10 w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-lg sm:text-xl font-bold py-4 sm:py-5 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-[0.98] shadow-lg hover:shadow-xl"
+                className="w-full bgu-button"
               >
+                <span className="emoji">🔄</span>
                 התחל מבחן חדש
               </Button>
             </motion.div>
