@@ -30,6 +30,11 @@ body {
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 224.3 76.3% 48%;
+  --game-primary: #FF8585;
+  --game-secondary: #6FEFE7;
+  --game-accent: #FFF3A3;
+  --game-dark: #E0E0E0;
+  --game-light: #1A1A1A;
 }
 
 /* Enhanced animations */
@@ -492,15 +497,6 @@ p {
   font-weight: 400;
 }
 
-/* צבעים משחקיים */
-:root {
-  --game-primary: #FF6B6B;
-  --game-secondary: #4ECDC4;
-  --game-accent: #FFE66D;
-  --game-dark: #2C3E50;
-  --game-light: #FFFFFF;
-}
-
 /* עיצוב טקסט משחקי */
 .gradient-text {
   background: linear-gradient(120deg, var(--game-primary), var(--game-secondary));
@@ -529,112 +525,38 @@ p {
   100% { filter: hue-rotate(0deg); }
 }
 
-/* כפתורים משחקיים */
-.bgu-button {
+/* עדכון רקע למצב דארק */
+[data-theme="dark"] .bg-clean {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+[data-theme="dark"] .clean-card {
   background: var(--game-light);
-  border: 3px solid var(--game-primary);
+  border-color: var(--game-secondary);
+}
+
+[data-theme="dark"] .radio-group label {
+  background-color: var(--game-light);
+  border-color: var(--game-secondary/30);
+}
+
+[data-theme="dark"] .radio-group label span {
+  color: var(--game-dark);
+}
+
+[data-theme="dark"] .dialog-content {
+  background: var(--game-light);
+}
+
+[data-theme="dark"] .bgu-button {
+  background: var(--game-light);
   color: var(--game-primary);
-  padding: 15px 30px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 1.1em;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 0 var(--game-primary);
-  transform: translateY(0);
-}
-
-.bgu-button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 0 var(--game-primary);
-  background: var(--game-primary);
-  color: var(--game-light);
-}
-
-.bgu-button:active {
-  transform: translateY(4px);
-  box-shadow: 0 0 0 var(--game-primary);
-}
-
-/* עיצוב אימוג'י משחקי */
-.emoji {
-  font-size: 2em;
-  filter: saturate(1.2);
-  display: inline-block;
-  transform-origin: center;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.emoji:hover {
-  transform: scale(1.4) rotate(15deg);
-}
-
-/* כרטיסיות משחקיות */
-.clean-card {
-  background: var(--game-light);
-  border: 3px solid var(--game-secondary);
-  border-radius: 25px;
-  padding: 24px;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  text-align: center;
-}
-
-.clean-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
   border-color: var(--game-primary);
 }
 
-/* כותרות משחקיות */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--game-dark);
-  font-family: 'Heebo', Arial, sans-serif;
-  font-weight: 800;
-  line-height: 1.4;
-  position: relative;
-}
-
-h1 {
-  font-size: 4rem;
-  background: linear-gradient(45deg, var(--game-primary), var(--game-accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
-}
-
-/* רקע משחקי */
-.bg-clean {
-  background: linear-gradient(135deg, #fff5f5 0%, #f0fff4 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.bg-clean::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 50% 50%, rgba(255,107,107,0.1) 0%, transparent 50%);
-  animation: pulseBackground 4s ease-in-out infinite;
-}
-
-@keyframes pulseBackground {
-  0% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.5); opacity: 0.2; }
-  100% { transform: scale(1); opacity: 0.5; }
-}
-
-/* אנימציות משחקיות */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-.animate-bounce-slow {
-  animation: bounce 2s ease-in-out infinite;
+[data-theme="dark"] .bgu-button:hover {
+  background: var(--game-primary);
+  color: var(--game-light);
 }
 
 /* עיצוב מוטיבציה */
@@ -947,4 +869,141 @@ h1 {
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
   }
+}
+
+/* צבעים משחקיים */
+:root {
+  --game-primary: #FF6B6B;
+  --game-secondary: #4ECDC4;
+  --game-accent: #FFE66D;
+  --game-dark: #2C3E50;
+  --game-light: #FFFFFF;
+}
+
+/* צבעים למצב דארק */
+[data-theme="dark"] {
+  --game-primary: #FF8585;
+  --game-secondary: #6FEFE7;
+  --game-accent: #FFF3A3;
+  --game-dark: #E0E0E0;
+  --game-light: #1A1A1A;
+}
+
+/* כפתורים משחקיים */
+.bgu-button {
+  background: var(--game-light);
+  border: 3px solid var(--game-primary);
+  color: var(--game-primary);
+  padding: 15px 30px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.1em;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 0 var(--game-primary);
+  transform: translateY(0);
+}
+
+.bgu-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 var(--game-primary);
+  background: var(--game-primary);
+  color: var(--game-light);
+}
+
+.bgu-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--game-primary);
+}
+
+/* עיצוב אימוג'י משחקי */
+.emoji {
+  font-size: 2em;
+  filter: saturate(1.2);
+  display: inline-block;
+  transform-origin: center;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.emoji:hover {
+  transform: scale(1.4) rotate(15deg);
+}
+
+/* כרטיסיות משחקיות */
+.clean-card {
+  background: var(--game-light);
+  border: 3px solid var(--game-secondary);
+  border-radius: 25px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+}
+
+.clean-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  border-color: var(--game-primary);
+}
+
+/* רקע משחקי */
+.bg-clean {
+  background: linear-gradient(135deg, #fff5f5 0%, #f0fff4 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .bg-clean {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
+
+[data-theme="dark"] .clean-card {
+  background: var(--game-light);
+  border-color: var(--game-secondary);
+}
+
+[data-theme="dark"] .radio-group label {
+  background-color: var(--game-light);
+  border-color: var(--game-secondary/30);
+}
+
+[data-theme="dark"] .radio-group label span {
+  color: var(--game-dark);
+}
+
+[data-theme="dark"] .dialog-content {
+  background: var(--game-light);
+}
+
+[data-theme="dark"] .bgu-button {
+  background: var(--game-light);
+  color: var(--game-primary);
+  border-color: var(--game-primary);
+}
+
+[data-theme="dark"] .bgu-button:hover {
+  background: var(--game-primary);
+  color: var(--game-light);
+}
+
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4, 
+[data-theme="dark"] h5, 
+[data-theme="dark"] h6 {
+  color: var(--game-dark);
+}
+
+[data-theme="dark"] .text-game-dark {
+  color: var(--game-dark);
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--game-light);
+}
+
+[data-theme="dark"] .bg-white\/95 {
+  background-color: var(--game-light);
 }
